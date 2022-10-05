@@ -1,13 +1,14 @@
 import pygame
 import sys
 import random
+import numpy
 
 # setup variables
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 screen.fill("black")
 clock = pygame.time.Clock()
-
+walls = []
 
 # classes
 class Player:
@@ -40,13 +41,22 @@ class Dungeon:
         self.width = width
         self.tiles = []
 
-    def MakeWall(self):
+    def MakeWallImg(self):
         self.width = random.randint(200, 400)
         self.length = random.randint(200, 400)
         for x in range(0, self.width):
             if self.width > -45:
                 self.tiles.append(self.width)
                 self.width = self.width - 45
+
+    def MakeWall(self):
+        self.width = random.randint(100,200)
+        self.length = random.randint(100,200)
+        self.offsetx = random.randint(100,200)
+        self.offsety = random.randint(100,200)
+        walls.append(pygame.Rect((self.offsety, self.offsetx),(self.width, self.length)))
+
+
 
     def ShowWall(self, walltype, offsetx, offsety):
         if walltype == 0:
@@ -61,11 +71,19 @@ class Dungeon:
             self.MakeWall()
             self.ShowWall(random.randint(0, 1), random.randint(0, 400), random.randint(0, 400))
 
+    def Draw1(self):
+
+        for i in walls:
+            pygame.draw.rect(screen, (255,255,255), (100, 100 ,100, 100))
+
+
 
 d = Dungeon()
 p = Player()
 Player()
-d.GenRoom()
+d.MakeWall()
+d.Draw1()
+#d.GenRoom()
 
 # main game loop
 while True:
@@ -74,8 +92,9 @@ while True:
             quit()
     p.checkMove()
 
-    # screen.fill("black")
-    # d.GenRoom()
+    #screen.fill("black")
+    #d.GenRoom()
+    #screen.blit(walls, (0,10))
     screen.blit(p.icon, p.rect)
     pygame.display.flip()
     clock.tick(60)
