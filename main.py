@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 # setup variables
 pygame.init()
@@ -20,19 +21,51 @@ class Player:
     def checkMove(self):
         key_press = pygame.key.get_pressed()
         if key_press[pygame.K_LEFT]:
-            self.x = self.x - 1
+            self.x = self.x - 2
         if key_press[pygame.K_RIGHT]:
-            self.x = self.x + 1
+            self.x = self.x + 2
         if key_press[pygame.K_UP]:
-            self.y = self.y - 1
+            self.y = self.y - 2
         if key_press[pygame.K_DOWN]:
-            self.y = self.y + 1
+            self.y = self.y + 2
 
         self.rect.midleft = (p.x, p.y)
 
 
+class Dungeon:
+    def __init__(self, length=0, width=0):
+        self.wall = pygame.image.load("wall.png")
+        self.floor = pygame.image.load("floor.png")
+        self.length = length
+        self.width = width
+        self.tiles = []
+
+    def MakeWall(self):
+        self.width = random.randint(200, 400)
+        self.length = random.randint(200, 400)
+        for x in range(0, self.width):
+            if self.width > -45:
+                self.tiles.append(self.width)
+                self.width = self.width - 45
+
+    def ShowWall(self, walltype, offsetx, offsety):
+        if walltype == 0:
+            for y in self.tiles:
+                screen.blit(self.wall, (offsetx, y + offsety))
+        elif walltype == 1:
+            for y in self.tiles:
+                screen.blit(self.wall, (y + offsetx, offsety))
+
+    def GenRoom(self):
+        for x in range(random.randint(10, 20)):
+            self.MakeWall()
+            self.ShowWall(random.randint(0, 1), random.randint(0, 400), random.randint(0, 400))
+
+
+d = Dungeon()
 p = Player()
 Player()
+d.GenRoom()
 
 # main game loop
 while True:
@@ -40,7 +73,9 @@ while True:
         if event.type == pygame.QUIT:
             quit()
     p.checkMove()
-    screen.fill("black")
+
+    # screen.fill("black")
+    # d.GenRoom()
     screen.blit(p.icon, p.rect)
     pygame.display.flip()
-    clock.tick(120)
+    clock.tick(60)
