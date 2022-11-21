@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((800, 600))
 screen.fill("black")
 clock = pygame.time.Clock()
 walls = []
-
+font = pygame.font.SysFont("Comic Sans MS", 25)
 
 # classes
 class Player:
@@ -53,11 +53,17 @@ class Player:
 
     def CheckCollision(self,rectcoll):
         if self.rect.colliderect(rectcoll):
-            self.xspeed = self.xspeed * -1
+            print(rectcoll.top)
+            self.xspeed = self.xspeed * 0
+            self.yspeed = self.yspeed * 0
+            if self.x >= (rectcoll.left - 30) and self.x < (rectcoll.right - 30):
+                self.x = self.x - 2
+            elif self.x <= (rectcoll.right) and self.x > rectcoll.left:
+                self.x = self.x + 2
+            if self.y <= (rectcoll.top - 15):
+                self.y = self.y - 5
 
-            self.yspeed = self.yspeed * -1
-            self.x = self.x + self.xspeed
-            self.y = self.y + self.yspeed
+
 
 class Dungeon:
     def __init__(self, length=0, width=0):
@@ -89,6 +95,7 @@ class Dungeon:
 d = Dungeon()
 p = Player()
 Player()
+
 d.MakeWall()
 d.MakeWall()
 # d.GenRoom()
@@ -102,6 +109,8 @@ while True:
     p.checkMove()
     d.Draw1()
     p.playerMove()
+    text = font.render((str(p.y)), False, (255, 255, 0))
+    screen.blit(text, (0,0))
 
 
     # d.GenRoom()
