@@ -53,14 +53,14 @@ class Player:
 
     def CheckCollision(self,rectcoll):
         if self.rect.colliderect(rectcoll):
-            print(rectcoll.top)
+            print(rectcoll.top - 16)
             self.xspeed = self.xspeed * 0
             self.yspeed = self.yspeed * 0
             if self.x >= (rectcoll.left - 30) and self.x < (rectcoll.right - 30):
                 self.x = self.x - 2
             elif self.x <= (rectcoll.right) and self.x > rectcoll.left:
                 self.x = self.x + 2
-            if self.y <= (rectcoll.top - 15):
+            if self.y <= (rectcoll.top - 14):
                 self.y = self.y - 5
 
 
