@@ -69,6 +69,9 @@ class Player:
                 self.y_speed = 2
             if self.y >= (rect_coll.bottom - 14):
                 self.y_speed = -2
+            else:
+                self.x = self.x - 1
+
         if p.x <= 0:
             self.Stop()
             self.x_speed = 2
@@ -95,21 +98,47 @@ class Dungeon:
 
     def MakeTunnel(self, n, hor):
         self.width = 10
-        self.length = 50
+        self.length = 60
         self.offsetx = tileset[n][0]
-        self.offsety = tileset[n][1]
+        self.offsety = tileset[n][1] + 20
         for i in range(2):
-            walls.append([self.offsety + 50 * i * hor, self.offsetx, self.width, self.length])
+            walls.append([self.offsety + self.length * i * hor, self.offsetx, self.width, self.length])
 
-    def MakeBox200(self, n):
+    def MakeBox(self, n, h):
         self.width = 10
         self.length = 50
         self.offsetx = tileset[n][0]
         self.offsety = tileset[n][1]
         for i in range(2):
-            walls.append([self.offsety + 200 * i, self.offsetx, self.width, 200])
-            walls.append([self.offsety, self.offsetx + 200 * i, 210, self.width])
+            walls.append([self.offsety + h * i, self.offsetx, self.width, h])
+            walls.append([self.offsety, self.offsetx + h * i, h + 10, self.width])
 
+    def MakeBoxDoorLeft(self, n, h,l,r,t,b):
+        self.width = 10
+        self.offsetx = tileset[n][0]
+        self.offsety = tileset[n][1]
+        if l == 1:
+            walls.append([self.offsety, self.offsetx, self.width, h/2 - 30])
+            walls.append([self.offsety, self.offsetx + h/2 + 30 , self.width, h/2 - 30])
+
+        else:
+            walls.append([self.offsety, self.offsetx, self.width, h])
+        if r == 1:
+            walls.append([self.offsety + h, self.offsetx, self.width, h/2 - 30])
+            walls.append([self.offsety + h, self.offsetx + h/2 + 30 , self.width, h/2 - 30])
+
+        else:
+            walls.append([self.offsety + h, self.offsetx, self.width, h])
+        if b == 1:
+            walls.append([self.offsety, self.offsetx + h, (h + 10)/2 -30, self.width])
+            walls.append([self.offsety + h/2 + 30 + 5, self.offsetx + h, (h + 10) / 2 - 30, self.width])
+        else:
+            walls.append([self.offsety, self.offsetx + h, h + 10, self.width])
+        if t == 1:
+            walls.append([self.offsety, self.offsetx, (h + 10)/2 -30, self.width])
+            walls.append([self.offsety + h/2 + 30 + 5, self.offsetx, (h + 10) / 2 - 30, self.width])
+        else:
+            walls.append([self.offsety, self.offsetx, h + 10, self.width])
 def Draw():
     for i in walls:
         z = pygame.draw.rect(screen, (255, 255, 255), (i[0], i[1], i[2], i[3]))
@@ -120,9 +149,10 @@ d = Dungeon()
 p = Player()
 Player()
 
-d.MakeTunnel(4,1)
-d.MakeBox200(12)
-
+d.MakeTunnel(7+32,1)
+d.MakeBoxDoorLeft(7,100,0,1,0,1)
+d.MakeBoxDoorLeft(9,100,1,1,0,1)
+d.MakeBoxDoorLeft(7+32+16,100,0,0,1,1)
 # main game loop
 while True:
     for event in pygame.event.get():
