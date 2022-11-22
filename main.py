@@ -104,16 +104,8 @@ class Dungeon:
         for i in range(2):
             walls.append([self.offsety + self.length * i * hor, self.offsetx, self.width, self.length])
 
-    def MakeBox(self, n, h):
-        self.width = 10
-        self.length = 50
-        self.offsetx = tileset[n][0]
-        self.offsety = tileset[n][1]
-        for i in range(2):
-            walls.append([self.offsety + h * i, self.offsetx, self.width, h])
-            walls.append([self.offsety, self.offsetx + h * i, h + 10, self.width])
 
-    def MakeBoxDoorLeft(self, n, h,l,r,t,b):
+    def MakeBox(self, n, h,l,r,t,b):
         self.width = 10
         self.offsetx = tileset[n][0]
         self.offsety = tileset[n][1]
@@ -148,11 +140,11 @@ def Draw():
 d = Dungeon()
 p = Player()
 Player()
-
+d.MakeTunnel(7+48+32,1)
 d.MakeTunnel(7+32,1)
-d.MakeBoxDoorLeft(7,100,0,1,0,1)
-d.MakeBoxDoorLeft(9,100,1,1,0,1)
-d.MakeBoxDoorLeft(7+32+16,100,0,0,1,1)
+d.MakeBox(7,100,0,1,0,1)
+d.MakeBox(9,100,1,1,0,1)
+d.MakeBox(7+32+16,100,0,0,1,1)
 # main game loop
 while True:
     for event in pygame.event.get():
