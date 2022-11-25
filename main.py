@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 walls = []
 font = pygame.font.SysFont("Comic Sans MS", 25)
 tileset = []
+tilegrid = []
 
 for x in range(0, 12):
     for y in range(0, 16):
@@ -104,33 +105,41 @@ class Dungeon:
         for i in range(2):
             walls.append([self.offsety + self.length * i * hor, self.offsetx, self.width, self.length])
 
-
-    def MakeBox(self, n, h,l,r,t,b):
+    def MakeBox(self, n, h, l, r, t, b):
         self.width = 10
         self.offsetx = tileset[n][0]
         self.offsety = tileset[n][1]
         if l == 1:
-            walls.append([self.offsety, self.offsetx, self.width, h/2 - 30])
-            walls.append([self.offsety, self.offsetx + h/2 + 30 , self.width, h/2 - 30])
+            walls.append([self.offsety, self.offsetx + 10, self.width, h / 2 - 30 ])
+            walls.append([self.offsety, self.offsetx + h / 2 + 30 , self.width, h / 2 - 30])
 
         else:
             walls.append([self.offsety, self.offsetx, self.width, h])
         if r == 1:
-            walls.append([self.offsety + h, self.offsetx, self.width, h/2 - 30])
-            walls.append([self.offsety + h, self.offsetx + h/2 + 30 , self.width, h/2 - 30])
+            walls.append([self.offsety + h, self.offsetx, self.width, h / 2 - 30])
+            walls.append([self.offsety + h, self.offsetx + h / 2 + 30, self.width, h / 2 - 30])
 
         else:
             walls.append([self.offsety + h, self.offsetx, self.width, h])
         if b == 1:
-            walls.append([self.offsety, self.offsetx + h, (h + 10)/2 -30, self.width])
-            walls.append([self.offsety + h/2 + 30 + 5, self.offsetx + h, (h + 10) / 2 - 30, self.width])
+            walls.append([self.offsety, self.offsetx + h, (h + 10) / 2 - 30, self.width])
+            walls.append([self.offsety + h / 2 + 30 + 5, self.offsetx + h, (h + 10) / 2 - 30, self.width])
         else:
             walls.append([self.offsety, self.offsetx + h, h + 10, self.width])
         if t == 1:
-            walls.append([self.offsety, self.offsetx, (h + 10)/2 -30, self.width])
-            walls.append([self.offsety + h/2 + 30 + 5, self.offsetx, (h + 10) / 2 - 30, self.width])
+            walls.append([self.offsety, self.offsetx, (h + 10) / 2 - 30, self.width])
+            walls.append([self.offsety + h / 2 + 30 + 5, self.offsetx, (h + 10) / 2 - 30, self.width])
         else:
             walls.append([self.offsety, self.offsetx, h + 10, self.width])
+
+    def Initial(self):
+        self.MakeBox(0,100,0,1,0,1)
+        tilegrid.insert(0,[0,"box",100,100])
+        for p in tilegrid:
+            if p[1] =="box":
+                self.MakeTunnel(p[0] + 32,1)
+
+
 def Draw():
     for i in walls:
         z = pygame.draw.rect(screen, (255, 255, 255), (i[0], i[1], i[2], i[3]))
@@ -140,12 +149,17 @@ def Draw():
 d = Dungeon()
 p = Player()
 Player()
-d.MakeTunnel(7+48+32,1)
-d.MakeTunnel(7+32,1)
-d.MakeBox(7,100,0,1,0,1)
-d.MakeBox(9,100,1,1,0,1)
-d.MakeBox(7+32+16,100,0,0,1,1)
+#d.MakeTunnel(8 + 48 + 32, 1)
+#d.MakeTunnel(7 + 32, 1)
+#d.MakeBox(7, 100, 0, 1, 0, 1)
+#d.MakeBox(9, 100, 1, 1, 0, 1)
+#d.MakeBox(7 + 64 + 32, 200, 0, 0, 1, 1)
+
+d.Initial()
+
 # main game loop
+
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
