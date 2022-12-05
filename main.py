@@ -29,7 +29,7 @@ class Player:
         self.x_speed = 0
         self.y_speed = 0
         self.hp = 100
-
+# checks for user inputs
     def checkMove(self):
         key_press = pygame.key.get_pressed()
         if key_press[pygame.K_LEFT]:
@@ -42,7 +42,7 @@ class Player:
             self.y_speed = -2
 
         self.rect.midleft = (p.x, p.y)
-
+# moves player character
     def playerMove(self):
         if self.y_speed > 1:
             self.y = self.y - 2
@@ -58,7 +58,7 @@ class Player:
     def Stop(self):
         self.x_speed = 0
         self.y_speed = 0
-
+# player collision checking function
     def CheckCollision(self, rect_coll):
         if self.rect.colliderect(rect_coll):
             self.Stop()
@@ -104,7 +104,7 @@ class Dungeon:
         self.offsety = tileset[n][1] + 20
         for i in range(2):
             walls.append([self.offsety + self.length * i * hor, self.offsetx, self.width, self.length])
-
+# makes box with custom width and height, door on each side and offset
     def MakeBox(self, n, h, l, r, t, b):
         self.width = 10
         self.offsetx = tileset[n][0]
@@ -132,6 +132,7 @@ class Dungeon:
         else:
             walls.append([self.offsety, self.offsetx, h + 10, self.width])
 
+# create dungeon            
     def Initial(self):
         self.MakeBox(0,100,0,1,0,1)
         tilegrid.insert(0,[0,"box",100,100])
@@ -139,7 +140,7 @@ class Dungeon:
             if p[1] =="box":
                 self.MakeTunnel(p[0] + 32,1)
 
-
+# draws all walls and activates collision checking for them
 def Draw():
     for i in walls:
         z = pygame.draw.rect(screen, (255, 255, 255), (i[0], i[1], i[2], i[3]))
