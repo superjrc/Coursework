@@ -29,6 +29,7 @@ class Player:
         self.x_speed = 0
         self.y_speed = 0
         self.hp = 100
+        
 # checks for user inputs
     def checkMove(self):
         key_press = pygame.key.get_pressed()
@@ -42,6 +43,7 @@ class Player:
             self.y_speed = -2
 
         self.rect.midleft = (p.x, p.y)
+        
 # moves player character
     def playerMove(self):
         if self.y_speed > 1:
@@ -58,6 +60,7 @@ class Player:
     def Stop(self):
         self.x_speed = 0
         self.y_speed = 0
+        
 # player collision checking function
     def CheckCollision(self, rect_coll):
         if self.rect.colliderect(rect_coll):
@@ -104,6 +107,7 @@ class Dungeon:
         self.offsety = tileset[n][1] + 20
         for i in range(2):
             walls.append([self.offsety + self.length * i * hor, self.offsetx, self.width, self.length])
+            
 # makes box with custom width and height, door on each side and offset
     def MakeBox(self, n, h, l, r, t, b):
         self.width = 10
@@ -112,7 +116,7 @@ class Dungeon:
         if l == 1:
             walls.append([self.offsety, self.offsetx + 10, self.width, h / 2 - 30 ])
             walls.append([self.offsety, self.offsetx + h / 2 + 30 , self.width, h / 2 - 30])
-
+            
         else:
             walls.append([self.offsety, self.offsetx, self.width, h])
         if r == 1:
@@ -149,13 +153,8 @@ def Draw():
 
 d = Dungeon()
 p = Player()
-Player()
-#d.MakeTunnel(8 + 48 + 32, 1)
-#d.MakeTunnel(7 + 32, 1)
-#d.MakeBox(7, 100, 0, 1, 0, 1)
-#d.MakeBox(9, 100, 1, 1, 0, 1)
-#d.MakeBox(7 + 64 + 32, 200, 0, 0, 1, 1)
 
+p()
 d.Initial()
 
 # main game loop
